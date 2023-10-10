@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script>
+
+        function randomizer(){
+            var dupa = Math.floor(Math.random()*10)
+            return dupa
+        }
+
+        function Factorialization()
+        {
+            var index = 1;
+            for(j = 10; j>0; j--){
+                var result = 1;
+                var factorial = randomizer()
+
+                for(i = factorial; i>=1; i--)
+                {
+                    result *=  i
+                }
+                document.getElementById("test").innerHTML += "("+index+") " + factorial + " = " + result +"<br>"
+                index++;
+        }}
+
+
+
+    </script>
+</head>
+<body onload="Factorialization()">
+    <div id="test"> </div>
+</body>
+</html>
