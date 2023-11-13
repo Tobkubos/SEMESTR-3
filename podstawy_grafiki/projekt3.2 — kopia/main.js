@@ -14,13 +14,15 @@ const controls = new OrbitControls(camera, renderer.domElement)
 const loader = new GLTFLoader()
 
 renderer.setClearColor(0x9999bb, 1)
-
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 ///////////////////////////////////////////////////////////////////////
 const light = new THREE.AmbientLight( 0x404040, 20 ); // soft white light
 scene.add( light );
 
 const pointLight = new THREE.PointLight( 0xffffff, 950, 100 );
 pointLight.position.set( 10, 10, 10 );
+pointLight.castShadow = true;
 scene.add( pointLight );
 
 const sphereSize = 1;
@@ -76,7 +78,11 @@ function floor() {
 	const pavement3 = new THREE.Mesh(pavement_geo2, pavement_material2)
 	const pavement4 = new THREE.Mesh(pavement_geo2, pavement_material2)
 	const grass = new THREE.Mesh(grass_geo, grass_material)
-
+	grass.receiveShadow = true;
+	pavement1.receiveShadow = true;
+	pavement2.receiveShadow = true;
+	pavement3.receiveShadow = true;
+	pavement4.receiveShadow = true;
 
 	const line = new THREE.PlaneGeometry(0.1, 0.5)
 
@@ -134,7 +140,8 @@ function trees() {
 
 	const tree_log = new THREE.Mesh(treeLog_geo, log_material)
 	const tree_Main = new THREE.Mesh(treeMain_geo, tree_material)
-
+	tree_log.castShadow = true;
+	tree_Main.castShadow = true;
 	const tree_Main2 = tree_Main.clone()
 	const tree_Main3 = tree_Main.clone()
 
