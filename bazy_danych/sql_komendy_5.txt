@@ -1,0 +1,64 @@
+/////////srednia ilosc dni pracy na poszczegolnym wydziale
+select w.nazwa, 
+round(avg(sysdate - z.od))
+from wydzialy w, zatrudnienia z
+where w.id = z.id_wydzialy and (z.do is null or z.do>sysdate)
+group by w.nazwa
+order by w.nazwa
+
+
+///////ilosc dni pracy dla kazdej osoby
+select id_osoby,
+  round(sum(case
+    when z.do < sysdate then (z.do - z.od) 
+    when z.do > sysdate then (sysdate - z.od)
+    when z.do is null then (sysdate - z.od)
+  end)) as dni
+from zatrudnienia z
+group by z.id_osoby
+
+
+///////pensja wedlug plci
+select o.plec, round(avg(p.pensja))
+from osoby o, pensje p
+where o.id = p.id_osoby
+group by o.plec
+
+
+////////najstarszy szef
+select  max(floor((sysdate - o.data_ur)/365) as wiek
+from osoby o, wydzialy w
+where o.id = w.szef
+
+
+////////najstarsi z wydzialów
+select  max(to_char(sysdate, 'yyyy') - to_char(o.data_ur, 'yyyy')) as wiek, w.nazwa
+from osoby o, wydzialy w, zatrudnienia z
+where o.id = z.id_osoby and w.id = z.id_wydzialy
+group by w.nazwa
+
+////////min pensja dla kazdej plci
+select  min(p.pensja), o.plec
+from osoby o, pensje p
+where o.id = p.id_osoby
+group by o.plec
+
+///////najdluzszy cykl pracy wedlug plci z aktualna pensja
+select  max(round(sysdate - z.od)), o.plec
+from osoby o, zatrudnienia z, pensje p
+where o.id = z.id_osoby 
+and (p.do is null or p.do>sysdate)
+and (z.do is null or z.do>sysdate)
+group by o.plec
+
+
+select  o.plec, max(CASE
+when z.do < sysdate then (z.do-z.od)
+when z.do > sysdate then (sysdate-z.od)
+when z.do is null then (sysdate-z.od)
+end)
+from osoby o, zatrudnienia z, pensje p
+where o.id = z.id_osoby and (o.id = p.id_osoby or p.do>sysdate) and p.pensja is not null
+
+group by o.plec
+

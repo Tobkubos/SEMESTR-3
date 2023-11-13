@@ -1,0 +1,55 @@
+//wyswietl rok urodzenia
+select to_char(data_ur,'yyyy')
+from osoby
+
+//znajdz ludzi ponizej 1980r
+select * 
+from osoby
+where to_char(data_ur,'yyyy')<1980
+
+//laczenie kolumn
+select imie1 ||' '|| nazwisko as "imie i nazwisko", ABS((length(imie1) - length(nazwisko))) as roznica
+from osoby
+
+//srednia pensji i maks
+select
+avg(pensja) as srednia,
+max(pensja) as maks
+from pensje
+
+//kto ma prace
+select 
+id_osoby from zatrudnienia where (do>sysdate) or do is null;
+
+//kto ile zarabia aktualnie?
+select 
+pensja from pensje where (do>sysdate) or do is null 
+
+//zlicz ile jest osob
+select 
+count(id) as "liczba osob" from osoby
+
+//ile pensji ma jaka osoba
+select 
+id_osoby, count(*) from pensje Group by id_osoby
+
+//pogrupuj po ilości pensji
+select 
+id_osoby, 
+count(*) from pensje 
+Group by id_osoby 
+order by count(*)
+
+//wyswietl na odwrot tabele z pracownikami z >1 pensjami
+select 
+avg(pensja), id_osoby 
+from pensje
+group by id_osoby
+having (count(*)>1)
+order by id_osoby desc;
+
+select id_osoby, avg(pensja)
+from pensje
+where do > sysdate or do is null
+group by id_osoby
+having avg(pensja)>2000

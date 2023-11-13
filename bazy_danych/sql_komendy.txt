@@ -1,0 +1,70 @@
+primary key
+foreign key
+
+create table osoby
+(
+id number primary key,
+nazwisko varchar2(15) not null,
+imie1 varchar2(15) not null,
+imie2 varchar2(15),
+data_ur date not null,
+plec char not null check(plec = 'k' or plec = 'm')
+);
+
+
+
+create table pensje
+(
+pensje_id number primary key,
+id_osoby number not null,
+od date not null,
+do date,
+pensja number not null,
+constraint pensje_fk foreign key(id_osoby) references osoby(id)
+);
+
+
+create table wydzialy
+(
+ wydzialy_id number primary key,
+ nazwa varchar2(15) unique not null,
+ szef number(2),
+ constraint wydzialy_fk foreign key(szef) references osoby(id)
+);
+
+
+
+create table zatrudnienie
+(
+zatrudnienie_id number primary key,
+od date not null,
+do date,
+id_osoby number,
+id_wydzialy number,
+constraint zatrudnienie_fk_id_osoby foreign key(id_osoby) references osoby(id),
+constraint zatrudnienie_fk_id_wydzialy foreign key(id_wydzialy) references wydzialy(wydzialy_id)
+);
+
+
+create sequence zatrudnienie_s
+start with 1
+increment by 1
+order;
+
+
+insert into osoby values
+(
+osoby_s.NEXTVAL,'Kowalski', 'Jan', null, to_date ('02/NOV/74', 'dd/mm/yyyy'), 'm'
+);
+
+osoby_s.NEXTVAL,'Kot', 'Adam', 'Marek', to_date ('21/NOV/80', 'dd/mm/yyyy'), 'm'
+
+
+insert into pensje values
+(
+pensje_s.NEXTVAL,
+1,
+to_date('11/12/2000', 'dd/mm/yyyy'),
+to_date('20/12/2005', 'dd/mm/yyyy'),
+1100
+);

@@ -1,0 +1,52 @@
+select o.* , p.*
+from osoby o,pensje p
+where o.id = p.id_osoby
+
+select o.nazwisko , p.pensja
+from osoby o,pensje p
+where o.id = p.id_osoby
+
+select o.*, p.pensja
+from osoby o,pensje p
+where o.id = p.id_osoby and o.id in (1,2,5,8)
+
+select o.imie1,
+o.nazwisko,
+p.pensja
+from osoby o,pensje p
+where o.id = p.id_osoby and 
+((p.do>sysdate) or p.do is null)
+
+select o.*
+from osoby o,zatrudnienia z
+where o.id = z.id and 
+((z.do>sysdate) or z.do is null)
+
+select o.*, p.pensja
+from osoby o,zatrudnienia z, pensje p
+where (o.id = z.id) and (o.id = p.id) and
+((z.do>sysdate) or z.do is null) and
+((p.do>sysdate) or p.do is null)
+
+
+select o.*, w.id, w.nazwa
+from osoby o, wydzialy w, zatrudnienia z
+where 
+    (o.id = z.id) 
+and (lower(w.nazwa) Like 'fiz%') 
+and z.id_wydzialy = w.id 
+and ((z.do>sysdate) or z.do is null)
+
+
+select o.*, w.id, w.nazwa
+from osoby o, wydzialy w, zatrudnienia z
+where 
+    (o.id = z.id_osoby) 
+and z.id_wydzialy = w.id 
+and (z.do<sysdate)
+
+select w.szef, o.nazwisko from wydzialy w, osoby o
+where o.id = w.szef
+
+select to_char(sysdate, 'yyyy') - to_char(data_ur, 'yyyy') as wiek from osoby
+select (ABS(to_date(data_ur, 'dd/mm/yyyy')-to_date(sysdate, 'dd/mm/yyyy')))/365 as wiek from osoby

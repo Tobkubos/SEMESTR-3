@@ -1,0 +1,68 @@
+select pensja 
+from pensje;
+
+select max(pensja) 
+from pensje;
+
+select min(nazwisko)
+from osoby;
+
+select imie1, imie2, nazwisko
+from osoby;
+
+select lower(imie1), upper(imie2), initcap(nazwisko)
+from osoby;
+
+select *
+from osoby
+where id in (1,3,7,10);
+
+update osoby 
+set nazwisko = 'Nowak'
+where id=1;
+
+select * 
+from osoby
+where lower(nazwisko)=nazwisko;
+/////////////
+
+///////////// OSTATNIA LITERA = K
+select * 
+from osoby
+where lower(substr(nazwisko,1,1))='k';
+
+select * 
+from osoby
+where nazwisko like '%k';
+/////////////
+
+///////////// PIERWSZA LITERA = A
+select * 
+from osoby
+where imie1 like 'A%';
+/////////////
+
+select * 
+from osoby
+where length(nazwisko)=3 and instr(nazwisko, 'o')>0;
+
+///////////// w środku o lub na koncu s
+select * 
+from osoby
+where nazwisko like '_o_' or nazwisko Like'__s';
+
+//////////// zamienia null na brak w wypisywaniu
+select
+imie1, NVL(imie2, 'brak'), nazwisko from osoby;
+
+////////////
+select imie1,nazwisko,
+case
+when plec='K' then 'KOBIETA'
+when plec='M' then 'MEZCZYZNA'
+End as plec
+from osoby;
+
+///////////
+select imie1, (replace(plec, 'M', 'MEZCZYZNA') (replace(plec, 'K', 'KOBIETA'))
+from osoby;
