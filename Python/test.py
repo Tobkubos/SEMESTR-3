@@ -1,3 +1,4 @@
-arr = [2,0,0]
-print(sum(arr))
-if(sum(arr)%2==0): print("even")
+def odd_or_even(arr):
+    if(sum(arr)%2==0): result = "even"
+    else: result = "odd"
+    return result
