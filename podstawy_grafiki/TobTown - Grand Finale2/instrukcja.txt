@@ -1,0 +1,7 @@
+INSTRUKCJA OBSŁUGI:
+Linia 275 - znajduje się tam zmienna od wielkości planszy.
+map_size od 0 do 3 generuje las.
+map_size od 4 do 8 generuje miasteczko bez lamp i wieżowców.
+Od wielkości map_size = 9 pojawiają się wieżowce z lampami, które reagują na to czy jest noc czy dzień.
+Zalecam nie przekraczać wielkości 11.  
+
